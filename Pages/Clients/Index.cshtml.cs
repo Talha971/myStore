@@ -17,7 +17,6 @@ namespace Crud__Asp.net_core_.Pages.Clients
             {
 
 
-                //Console.WriteLine("Talha Bawli Gand!");
                 string connectionString = "Data Source=.\\SQLEXPRESS;Initial Catalog=mystore;Integrated Security=True;TrustServerCertificate=True";
                 using (SqlConnection connection = new SqlConnection(connectionString))
                 {
