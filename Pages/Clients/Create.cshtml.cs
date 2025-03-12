@@ -1,5 +1,6 @@
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
+using System.Data.SqlClient;
 
 namespace Crud__Asp.net_core_.Pages.Clients
 {
@@ -23,10 +24,37 @@ namespace Crud__Asp.net_core_.Pages.Clients
                 errorMessage = "All the fields are required";
                 return;
             }
-            
+
             //save the new client into the db;
+            try
+            {
+                string connectionString = "Data Source=.\\SQLEXPRESS;Initial Catalog=mystore;Integrated Security=True;Encrypt=False";
+                using (SqlConnection connection = new SqlConnection(connectionString)) 
+                {
+                    connection.Open();
+                    string sql = "Insert INTO clients" + "(name,email,phone,address) VALUES" + "(@name,@email,@phone,@address);";
+
+                    using (SqlCommand command = new SqlCommand(sql, connection))
+                    {
+                        command.Parameters.AddWithValue("@name", clientInfo.name);
+                        command.Parameters.AddWithValue("@email", clientInfo.email);
+                        command.Parameters.AddWithValue("@phone", clientInfo.phone);
+                        command.Parameters.AddWithValue("@address", clientInfo.address);
+
+                        command.ExecuteNonQuery();
+                    }
+                }
+                
+            }
+            catch (Exception ex) {
+            errorMessage = ex.Message;
+                return;
+
+            }
             clientInfo.name = ""; clientInfo.email = ""; clientInfo.phone = ""; clientInfo.address = "";
             successMessage = "New Client Added Correctly";
+
+            Response.Redirect("/Clients/Index");
         }
     }
 }
