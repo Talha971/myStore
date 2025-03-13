@@ -61,12 +61,36 @@ namespace Crud__Asp.net_core_.Pages.Clients
             }
             try
             {
+                string connectionString = "Data Source=.\\SQLEXPRESS;Initial Catalog=mystore;Integrated Security=True;Encrypt=False";
+                using (SqlConnection connection = new SqlConnection(connectionString))
+                {
+                    connection.Open();
 
+                    String sql = "UPDATE clients " +
+                    "SET name=@name, email=@enail, phone=@phone, address=@address" +
+                    "WHERE id=@id";
+
+                    using (SqlCommand command = new SqlCommand(sql, connection))
+                    {
+                        command.Parameters.AddWithValue("@name", clientInfo.name);
+
+                        command.Parameters.AddWithValue("@email", clientInfo.email);
+
+                        command.Parameters.AddWithValue("@phone", clientInfo.phone);
+
+                        command.Parameters.AddWithValue("@address", clientInfo.address);
+
+                        command.Parameters.AddWithValue("@id", clientInfo.id);
+
+                        command.ExecuteNonQuery();
+                    }
+                }
             }
-            catch (Exception ex) 
-            { 
+            catch (Exception ex)
+            {
                 errorMessage = ex.Message;
             }
+            Response.Redirect("/Clients/Index");
         }
     }
 }
