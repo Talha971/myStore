@@ -49,7 +49,9 @@ namespace Crud__Asp.net_core_.Pages.Clients
         }
         public void OnPost()
         {
+            Console.WriteLine("kch bhi likhde");
             clientInfo.id = Request.Form["id"];
+            Console.WriteLine(clientInfo.id);
             clientInfo.name = Request.Form["name"];
             clientInfo.email = Request.Form["email"];
             clientInfo.phone = Request.Form["phone"];
@@ -66,9 +68,7 @@ namespace Crud__Asp.net_core_.Pages.Clients
                 {
                     connection.Open();
 
-                    String sql = "UPDATE clients " +
-                    "SET name=@name, email=@enail, phone=@phone, address=@address" +
-                    "WHERE id=@id";
+                    String sql = "UPDATE clients SET name=@name, email=@email, phone=@phone, address=@address WHERE id=@id";
 
                     using (SqlCommand command = new SqlCommand(sql, connection))
                     {
@@ -83,6 +83,7 @@ namespace Crud__Asp.net_core_.Pages.Clients
                         command.Parameters.AddWithValue("@id", clientInfo.id);
 
                         command.ExecuteNonQuery();
+
                     }
                 }
             }

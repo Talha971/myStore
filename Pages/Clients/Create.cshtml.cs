@@ -32,7 +32,7 @@ namespace Crud__Asp.net_core_.Pages.Clients
                 using (SqlConnection connection = new SqlConnection(connectionString)) 
                 {
                     connection.Open();
-                    string sql = "Insert INTO clients" + "(name,email,phone,address) VALUES" + "(@name,@email,@phone,@address);";
+                    string sql = "Insert INTO clients (name,email,phone,address) VALUES (@name,@email,@phone,@address);";
 
                     using (SqlCommand command = new SqlCommand(sql, connection))
                     {
@@ -40,7 +40,6 @@ namespace Crud__Asp.net_core_.Pages.Clients
                         command.Parameters.AddWithValue("@email", clientInfo.email);
                         command.Parameters.AddWithValue("@phone", clientInfo.phone);
                         command.Parameters.AddWithValue("@address", clientInfo.address);
-
                         command.ExecuteNonQuery();
                     }
                 }
